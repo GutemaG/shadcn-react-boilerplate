@@ -1,1 +1,1 @@
-# shadcn-react-boilerplate
+# React + TypeScript + Vite + ShadCN + TailwindAdmin
