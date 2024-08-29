@@ -14,6 +14,7 @@ export type User = {
   email: string;
   avatar: string;
   eyeColor: string;
+  image: string;
   // Add other fields as necessary
 };
 

@@ -1,12 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import PageTitle from "@/components/ui/PageTitle";
 import Dashboard from "@/pages/Dashboard";
-import UserListPage from "@/pages/UserListPage";
+// import UserListPage from "@/pages/UserListPage";
 import { DefaultLayout } from "@/components/ui/layout/DefaultLayout";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import ProtectedRoute from "./ProtectedRoute";
 import UnAuthenticatedLayout from "@/components/ui/layout/UnAuthenticatedLayout";
+import { UserListDataTablePage } from "@/pages/UserListDataTablePage";
 
 export const Routing = () => {
   return (
@@ -81,7 +82,7 @@ export const Routing = () => {
             element={
               <>
                 <PageTitle title="Task" />
-                <UserListPage />
+                <UserListDataTablePage />
               </>
             }
           />
