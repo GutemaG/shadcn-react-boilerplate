@@ -10,6 +10,8 @@ const axiosClient: AxiosInstance = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
   },
 });
 
@@ -33,7 +35,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      window.location.href = "/login";
+      window.location.href = "/auth/signin";
     }
     return Promise.reject(error);
   }

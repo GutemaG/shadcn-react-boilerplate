@@ -11,21 +11,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 export function DropDownUser() {
-  const loggedInUser = {
-    name: "Birhanu Gudisa",
-    image: "../",
-    email: "test@gamil.com",
-    username: "birhanu",
-  };
+  const { logout, user } = useAuth();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex justify-center gap-2 text-end">
           <div className="flex flex-col cursor-pointer text-sm text-end">
-            <span className="font-black">{loggedInUser.name}</span>
-            <span className="font-thin text-end">{loggedInUser.username}</span>
+            <span className="font-black">
+              {user?.firstName} {user?.lastName}
+            </span>
+            <span className="font-thin text-end">{user?.username}</span>
           </div>
           <Button
             variant="outline"
@@ -33,8 +32,8 @@ export function DropDownUser() {
             className="overflow-hidden rounded-full h-max"
           >
             <Avatar>
-              <AvatarImage src="vite.svg" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src={user?.image} alt="@shadcn" />
+              <AvatarFallback>{user?.firstName[0]}</AvatarFallback>
             </Avatar>
           </Button>
         </div>
@@ -66,7 +65,7 @@ export function DropDownUser() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => logout()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

@@ -1,10 +1,9 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import Sidebar from "./sidebar";
 import Header from "./topbar/Header";
+import { Outlet } from "react-router-dom";
 
-export const DefaultLayout: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="dark:bg-inherit bg-gray-100">
@@ -14,7 +13,7 @@ export const DefaultLayout: React.FC<{ children: ReactNode }> = ({
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           <main>
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {children}
+              <Outlet />
             </div>
           </main>
         </div>

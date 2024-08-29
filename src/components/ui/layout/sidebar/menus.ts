@@ -23,13 +23,13 @@ export const menus: Menu[] = [
     // ],
   },
   {
-    path: "/tasks",
-    name: "Tasks",
+    path: "/users",
+    name: "Users",
     icon: BookCheck,
     child: [
       {
-        path: "category-1",
-        name: "Task Category 1",
+        path: "list",
+        name: "User List",
         icon: List,
       },
       {

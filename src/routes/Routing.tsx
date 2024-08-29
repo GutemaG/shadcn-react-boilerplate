@@ -1,34 +1,93 @@
 import { Route, Routes } from "react-router-dom";
-import authRouting from "./auth-routing";
-import taskRouting from "./task-routing";
 import PageTitle from "@/components/ui/PageTitle";
 import Dashboard from "@/pages/Dashboard";
+import UserListPage from "@/pages/UserListPage";
+import { DefaultLayout } from "@/components/ui/layout/DefaultLayout";
+import { LoginPage } from "@/pages/auth/LoginPage";
+import SignUpPage from "@/pages/auth/SignUpPage";
+import ProtectedRoute from "./ProtectedRoute";
+import UnAuthenticatedLayout from "@/components/ui/layout/UnAuthenticatedLayout";
 
 export const Routing = () => {
   return (
     <Routes>
       <Route
-        index
-        path="/"
+        path="auth"
         element={
           <>
-            <PageTitle title="Home" />
-            <Dashboard />
+            <UnAuthenticatedLayout />
           </>
         }
-      />
+      >
+        <Route
+          index
+          path="signin"
+          element={
+            <>
+              <ProtectedRoute>
+                <PageTitle title="Sign In" />
+                <LoginPage />
+              </ProtectedRoute>
+            </>
+          }
+        />
+        <Route
+          index
+          path="signup"
+          element={
+            <>
+              <ProtectedRoute>
+                <PageTitle title="Sign up" />
+                <SignUpPage />
+              </ProtectedRoute>
+            </>
+          }
+        />
+      </Route>
+
       <Route
-        index
-        path="settings"
         element={
           <>
-            <PageTitle title="Setting" /> settings
+            <ProtectedRoute>
+              <DefaultLayout />
+            </ProtectedRoute>
           </>
         }
-      />
-      <Route index path="profile" element={<>Profile Page</>} />
-      {taskRouting}
-      {authRouting}
+      >
+        <Route
+          index
+          path="/"
+          element={
+            <>
+              <PageTitle title="Home" />
+              <Dashboard />
+            </>
+          }
+        />
+        <Route
+          index
+          path="settings"
+          element={
+            <>
+              <PageTitle title="Setting" /> settings
+            </>
+          }
+        />
+        <Route index path="profile" element={<>Profile Page</>} />
+
+        <Route path="users">
+          <Route
+            path="list"
+            element={
+              <>
+                <PageTitle title="Task" />
+                <UserListPage />
+              </>
+            }
+          />
+          <Route path="category-2" element={<>Task Category 2</>} />
+        </Route>
+      </Route>
       <Route index path="*" element={<>404 Page</>} />
     </Routes>
   );
