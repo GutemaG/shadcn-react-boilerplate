@@ -35,7 +35,6 @@ export const loginApi = async (
     return authUser;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    // Customize the error handling
     if (error.response && error.response.status === 401) {
       throw new Error("Invalid username or password");
     } else if (

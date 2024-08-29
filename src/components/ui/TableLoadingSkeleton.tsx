@@ -22,14 +22,14 @@ const TableLoadingSkeleton = () => {
         <tbody>
           {rows.map((_, index) => (
             <tr key={index}>
-              <td className="px-6 py-4">
-                <Skeleton className="h-4 w-full" />
+              <td className="px-6 py-4 ">
+                <Skeleton className="h-4 w-full bg-gray-500" />
               </td>
               <td className="px-6 py-4">
-                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full bg-gray-500" />
               </td>
               <td className="px-6 py-4">
-                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full bg-gray-500" />
               </td>
             </tr>
           ))}

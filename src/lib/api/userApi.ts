@@ -5,7 +5,7 @@ export type User = {
   id: number;
   firstName: string;
   lastName: string;
-  maidName: string;
+  maidenName: string;
   age: number;
   gender: string;
   phone: string;
@@ -13,6 +13,7 @@ export type User = {
   password: string;
   email: string;
   avatar: string;
+  eyeColor: string;
   // Add other fields as necessary
 };
 
