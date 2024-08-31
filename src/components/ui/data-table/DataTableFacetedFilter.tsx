@@ -17,14 +17,16 @@ import {
   CommandSeparator,
 } from "../command";
 
+export interface FacetedFilterOptions {
+  label: string;
+  value: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
-  options: {
-    label: string;
-    value: string;
-    icon?: React.ComponentType<{ className?: string }>;
-  }[];
+  options: FacetedFilterOptions[];
 }
 
 export function DataTableFacetedFilter<TData, TValue>({

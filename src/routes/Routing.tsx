@@ -7,7 +7,7 @@ import { LoginPage } from "@/pages/auth/LoginPage";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import ProtectedRoute from "./ProtectedRoute";
 import UnAuthenticatedLayout from "@/components/ui/layout/UnAuthenticatedLayout";
-import { UserListDataTablePage } from "@/pages/UserListDataTablePage";
+import { UserListDataTablePage } from "@/pages/user-list/UserListDataTablePage";
 
 export const Routing = () => {
   return (

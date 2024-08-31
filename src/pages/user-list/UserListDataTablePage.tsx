@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -11,16 +10,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ArrowDownIcon,
-  ArrowRightIcon,
-  ArrowUpDown,
-  ArrowUpIcon,
-  CircleIcon,
-} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -34,167 +25,21 @@ import { getUsers, User, UserPaginationResponse } from "@/lib/api/userApi";
 import { useFetchData } from "@/hooks/useFetchData";
 import TableLoadingSkeleton from "@/components/ui/TableLoadingSkeleton";
 import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { NavLink } from "react-router-dom";
-import { DataTableColumnHeader } from "@/components/ui/data-table/DataTableColumnHeader";
 import { DataTablePagination } from "@/components/ui/data-table/DataTablePagination";
 import { DataTableViewOptions } from "@/components/ui/data-table/DataTableViewOptions";
 import { DataTableFacetedFilter } from "@/components/ui/data-table/DataTableFacetedFilter";
-import { Cross2Icon, QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 
-export const columns: ColumnDef<User>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "id",
-    header: "Id",
-  },
-  {
-    accessorKey: "username",
-    enableResizing: true,
-    header: "UserName",
-    enableSorting: true,
-    sortingFn: "alphanumeric",
-    cell: ({ row }) => (
-      <div className="flex gap-1 capitalize items-center">
-        <Button
-          variant="outline"
-          size="icon"
-          className="overflow-hidden rounded-full h-max"
-        >
-          <Avatar>
-            <AvatarImage src={row.original.image} alt={row.original.username} />
-            <AvatarFallback>
-              {row.original.firstName[0]}
-              {row.original.lastName[1]}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-        {row.getValue("username")}
-      </div>
-    ),
-  },
-  {
-    header: "Full Name",
-    cell: ({ row }) => {
-      return (
-        <div className="flex gap-1">
-          <span>{row.original.firstName}</span>
-          <span>{row.original.lastName}</span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone Number",
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Email" />;
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-
-  {
-    accessorKey: "gender",
-    header: "Gender",
-  },
-  {
-    id: "actions",
-    header: "Action",
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <>
-          <NavLink to={"/"} className={"underline text-blue-700"}>
-            Detail {row.original.username}
-          </NavLink>
-        </>
-      );
-    },
-  },
-];
-export const labels = [
-  {
-    value: "bug",
-    label: "Bug",
-  },
-  {
-    value: "feature",
-    label: "Feature",
-  },
-  {
-    value: "documentation",
-    label: "Documentation",
-  },
-];
-
-export const gender = [
-  {
-    value: "male",
-    label: "Male",
-    icon: QuestionMarkCircledIcon,
-  },
-  {
-    value: "female",
-    label: "Female",
-    icon: CircleIcon,
-  },
-];
-export const priorities = [
-  {
-    label: "Low",
-    value: "low",
-    icon: ArrowDownIcon,
-  },
-  {
-    label: "Medium",
-    value: "medium",
-    icon: ArrowRightIcon,
-  },
-  {
-    label: "High",
-    value: "high",
-    icon: ArrowUpIcon,
-  },
-];
+import { Cross2Icon } from "@radix-ui/react-icons";
+import { columns } from "./columns";
+import { bloodTypeOptions, gender } from "./filter-options";
 
 export function UserListDataTablePage() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [globalFilter, setGlobalFilter] = React.useState("");
+
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
@@ -225,7 +70,10 @@ export function UserListDataTablePage() {
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "auto",
   });
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -236,31 +84,33 @@ export function UserListDataTablePage() {
       </div>
     );
   if (error) return <div>{error}</div>;
+  //apply the fuzzy sort if the fullName column is being filtered
 
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-3">
         <div className="flex flex-1 items-center space-x-2">
           <Input
-            placeholder="Filter tasks..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("title")?.setFilterValue(event.target.value)
-            }
+            placeholder="Filter"
+            // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            value={globalFilter}
+            onChange={(event) => {
+              setGlobalFilter(event.target.value);
+            }}
             className="h-8 w-[150px] lg:w-[250px]"
           />
-          {table.getColumn("username") && (
+          {table.getColumn("gender") && (
             <DataTableFacetedFilter
               column={table.getColumn("gender")}
               title="Gender"
               options={gender}
             />
           )}
-          {table.getColumn("email") && (
+          {table.getColumn("bloodGroup") && (
             <DataTableFacetedFilter
-              column={table.getColumn("email")}
-              title="Email"
-              options={priorities}
+              column={table.getColumn("bloodGroup")}
+              title="Blood Group"
+              options={bloodTypeOptions}
             />
           )}
           {isFiltered && (
@@ -326,14 +176,8 @@ export function UserListDataTablePage() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <DataTablePagination table={table} />
-        </div>
+      <div className="space-x-2">
+        <DataTablePagination table={table} />
       </div>
     </div>
   );
