@@ -119,7 +119,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <>
           <NavLink
-            to={`user/${row.original.id}`}
+            to={`/users/${row.original.id}`}
             className={"underline text-blue-700"}
           >
             Detail

@@ -8,6 +8,7 @@ import SignUpPage from "@/pages/auth/SignUpPage";
 import ProtectedRoute from "./ProtectedRoute";
 import UnAuthenticatedLayout from "@/components/ui/layout/UnAuthenticatedLayout";
 import { UserListDataTablePage } from "@/pages/user-list/UserListDataTablePage";
+import UserDetailPage from "@/pages/user-list/UserDetailPage";
 
 export const Routing = () => {
   return (
@@ -83,6 +84,15 @@ export const Routing = () => {
               <>
                 <PageTitle title="Task" />
                 <UserListDataTablePage />
+              </>
+            }
+          />
+          <Route
+            path=":id"
+            element={
+              <>
+                <PageTitle title="Task" />
+                <UserDetailPage />
               </>
             }
           />
