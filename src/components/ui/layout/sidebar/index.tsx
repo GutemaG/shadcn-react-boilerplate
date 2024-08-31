@@ -83,8 +83,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      // className={`absolute left-0 top-0 z-9999 flex h-screen w-72 flex-col overflow-y-hidden bg-slate-600 duration-300 ease-linear dark:bg-stone-900 lg:static lg:translate-x-0 ${
-      className={`absolute left-0 top-0 z-9999 shadow-lg transition ease-in-out flex h-screen w-72.5 flex-col overflow-y-hidden  duration-300 lg:static lg:translate-x-0 bg-background bg-black text-white ${
+      className={`absolute left-0 top-0 z-9999 shadow-sm border-r-2 transition ease-in-out flex h-screen w-72.5 flex-col overflow-y-hidden  duration-300 lg:static lg:translate-x-0 bg-background text-white ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -95,13 +94,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* <img src="logo-icon.svg" alt="Logo" /> */}
           <Button
             variant={"outline"}
-            className="p-6 border-0 bg-inherit hover:bg-inherit hover:text-inherit"
+            className="py-6 px-2 border-0 bg-inherit hover:bg-inherit hover:text-inherit"
           >
-            <span className="mr-2 uppercase text-2xl">Logo</span>
-            <Slack size={32} color="#ffffff" strokeWidth={2} />
+            <Slack
+              size={32}
+              className="text-primary text-start"
+              strokeWidth={2}
+            />
+            <span className="ml-2 uppercase text-2xl text-primary">Logo</span>
           </Button>
         </NavLink>
-        {/* absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary */}
         <Button
           ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -109,7 +111,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           aria-expanded={sidebarOpen}
           variant={"outline"}
           size={"icon"}
-          className=" lg:hidden hover:border-1 border-0 hover:font-bold hover:bg-inherit bg-inherit hover:text-white hover:ring-2 hover:ring-white hover:rounded-full"
+          className=" lg:hidden hover:border-1 border-0 hover:font-bold rounded-full bg-secondary text-secondary-foreground hover:text-primary-foreground hover:bg-primary hover:ring-2 hover:ring-white "
         >
           <X size={20} />
         </Button>
@@ -139,10 +141,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <React.Fragment>
                           <NavLink
                             to="#"
-                            className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-gray-600 dark:hover:bg-meta-4 text-muted-foreground ${
+                            className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-30 ease-in-out hover:bg-secondary hover:text-secondary-foreground  dark:hover:bg-meta-4 text-muted-foreground ${
                               (pathname === menu.path ||
                                 pathname.includes(menu.name.toLowerCase())) &&
-                              "bg-gray-900 dark:bg-meta-4 text-white"
+                              " dark:bg-meta-4 bg-secondary text-secondary-foreground "
                             }`}
                             onClick={(e) => {
                               e.preventDefault();
@@ -171,8 +173,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                         ""
                                       )}/${child.path.replace(/^\//, "")}`}
                                       className={({ isActive }) =>
-                                        "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-muted-foreground duration-300 ease-in-out hover:text-white " +
-                                        (isActive && "!text-white")
+                                        "group relative flex items-center gap-2.5 rounded-md font-medium text-muted-foreground  duration-300 ease-in-out  hover:bg-secondary hover:text-secondary-foreground p-2 hover:p-2" +
+                                        (isActive &&
+                                          " bg-primary text-primary-foreground hover:bg-primary/85 hover:text-primary-foreground/85")
                                       }
                                     >
                                       {child.icon && (
@@ -194,8 +197,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <NavLink
                         to={menu.path}
                         className={({ isActive }) =>
-                          "group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-muted-foreground duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 " +
-                          (isActive && "bg-graydark dark:bg-meta-4 text-white")
+                          "group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-muted-foreground duration-300 ease-in-out hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-meta-4 " +
+                          (isActive &&
+                            "bg-primary dark:bg-meta-4 text-primary-foreground hover:bg-primary/85 hover:text-primary-foreground/85")
                         }
                       >
                         {menu.icon && <menu.icon className="mr-2" />}
