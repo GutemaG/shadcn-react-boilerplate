@@ -2,9 +2,6 @@ import {
   BookCheck,
   LayoutDashboard,
   List,
-  Lock,
-  LogIn,
-  LogOut,
   Settings,
   UserPen,
 } from "lucide-react";
@@ -36,23 +33,6 @@ export const menus: Menu[] = [
         path: "category-2",
         name: "Task Category 2",
         icon: List,
-      },
-    ],
-  },
-  {
-    name: "Auth",
-    path: "auth",
-    icon: Lock,
-    child: [
-      {
-        name: "Sign In",
-        path: "signin",
-        icon: LogIn,
-      },
-      {
-        name: "Sign Up",
-        path: "signup",
-        icon: LogOut,
       },
     ],
   },

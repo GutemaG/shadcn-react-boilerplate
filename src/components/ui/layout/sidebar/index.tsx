@@ -83,7 +83,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 shadow-sm border-r-2 transition ease-in-out flex h-screen w-72.5 flex-col overflow-y-hidden  duration-300 lg:static lg:translate-x-0 bg-background text-white ${
+      className={`absolute left-0 top-0 z-9999 shadow-sm border-r-2 transition ease-in-out flex h-screen w-75 flex-col overflow-y-hidden  duration-300 lg:static lg:translate-x-0 bg-background text-white ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -173,9 +173,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                         ""
                                       )}/${child.path.replace(/^\//, "")}`}
                                       className={({ isActive }) =>
-                                        "group relative flex items-center gap-2.5 rounded-md font-medium text-muted-foreground  duration-300 ease-in-out  hover:bg-secondary hover:text-secondary-foreground p-2 hover:p-2" +
-                                        (isActive &&
-                                          " bg-primary text-primary-foreground hover:bg-primary/85 hover:text-primary-foreground/85")
+                                        [
+                                          "group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-muted-foreground duration-300 ease-in-out",
+                                          isActive
+                                            ? "bg-primary text-primary-foreground dark:bg-meta-4"
+                                            : "hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-meta-4",
+                                        ].join(" ")
                                       }
                                     >
                                       {child.icon && (
@@ -197,9 +200,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <NavLink
                         to={menu.path}
                         className={({ isActive }) =>
-                          "group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-muted-foreground duration-300 ease-in-out hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-meta-4 " +
-                          (isActive &&
-                            "bg-primary dark:bg-meta-4 text-primary-foreground hover:bg-primary/85 hover:text-primary-foreground/85")
+                          [
+                            "group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-muted-foreground duration-300 ease-in-out",
+                            isActive
+                              ? "bg-primary text-primary-foreground dark:bg-meta-4"
+                              : "hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-meta-4",
+                          ].join(" ")
                         }
                       >
                         {menu.icon && <menu.icon className="mr-2" />}
