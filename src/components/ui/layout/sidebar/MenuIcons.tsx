@@ -17,7 +17,7 @@ export const MaterialSymbolsMenu = (props: SVGProps<SVGSVGElement>) => {
   );
 };
 
-export const CalenderMenu = (props: SVGProps<SVGSVGElement>) => {
+export const CalenderMenu = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ export const OpenCloseMenuIcon = ({ isOpen }: OpenMenuProps) => {
   );
 };
 
-export function MaterialSymbolsPerson(props: SVGProps<SVGSVGElement>) {
+export function MaterialSymbolsPerson() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
