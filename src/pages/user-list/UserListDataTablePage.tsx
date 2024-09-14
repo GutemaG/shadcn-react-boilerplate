@@ -32,6 +32,7 @@ import { DataTableFacetedFilter } from "@/components/ui/data-table/DataTableFace
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { columns } from "./columns";
 import { bloodTypeOptions, gender } from "./filter-options";
+import { DefaultPage } from "@/components/shared/DefaultPage";
 
 export function UserListDataTablePage() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -87,98 +88,100 @@ export function UserListDataTablePage() {
   //apply the fuzzy sort if the fullName column is being filtered
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between py-3">
-        <div className="flex flex-1 items-center space-x-2">
-          <Input
-            placeholder="Filter"
-            // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            value={globalFilter}
-            onChange={(event) => {
-              setGlobalFilter(event.target.value);
-            }}
-            className="h-8 w-[150px] lg:w-[250px]"
-          />
-          {table.getColumn("gender") && (
-            <DataTableFacetedFilter
-              column={table.getColumn("gender")}
-              title="Gender"
-              options={gender}
+    <DefaultPage headerTitle="User List">
+      <div className="w-full">
+        <div className="flex items-center justify-between py-3">
+          <div className="flex flex-1 items-center space-x-2">
+            <Input
+              placeholder="Filter"
+              // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+              value={globalFilter}
+              onChange={(event) => {
+                setGlobalFilter(event.target.value);
+              }}
+              className="h-8 w-[150px] lg:w-[250px]"
             />
-          )}
-          {table.getColumn("bloodGroup") && (
-            <DataTableFacetedFilter
-              column={table.getColumn("bloodGroup")}
-              title="Blood Group"
-              options={bloodTypeOptions}
-            />
-          )}
-          {isFiltered && (
-            <Button
-              variant="ghost"
-              onClick={() => table.resetColumnFilters()}
-              className="h-8 px-2 lg:px-3"
-            >
-              Reset
-              <Cross2Icon className="ml-2 h-4 w-4" />
-            </Button>
-          )}
-        </div>
-        <DataTableViewOptions table={table} />
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
+            {table.getColumn("gender") && (
+              <DataTableFacetedFilter
+                column={table.getColumn("gender")}
+                title="Gender"
+                options={gender}
+              />
             )}
-          </TableBody>
-        </Table>
+            {table.getColumn("bloodGroup") && (
+              <DataTableFacetedFilter
+                column={table.getColumn("bloodGroup")}
+                title="Blood Group"
+                options={bloodTypeOptions}
+              />
+            )}
+            {isFiltered && (
+              <Button
+                variant="ghost"
+                onClick={() => table.resetColumnFilters()}
+                className="h-8 px-2 lg:px-3"
+              >
+                Reset
+                <Cross2Icon className="ml-2 h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          <DataTableViewOptions table={table} />
+        </div>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="space-x-2">
+          <DataTablePagination table={table} />
+        </div>
       </div>
-      <div className="space-x-2">
-        <DataTablePagination table={table} />
-      </div>
-    </div>
+    </DefaultPage>
   );
 }
