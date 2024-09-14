@@ -1,9 +1,16 @@
 import {
-  BookCheck,
+  ChartLine,
+  Grid2X2,
   LayoutDashboard,
-  List,
+  ListPlus,
+  ListTodo,
+  PieChart,
   Settings,
-  UserPen,
+  User,
+  UserCheck,
+  UserPlus,
+  Users,
+  Workflow,
 } from "lucide-react";
 import { Menu } from "@/model/SideBarMenu";
 export const menus: Menu[] = [
@@ -11,39 +18,66 @@ export const menus: Menu[] = [
     path: "/",
     name: "Dashboard",
     icon: LayoutDashboard,
-    // child: [
-    //   {
-    //     path: "/",
-    //     name: "eCommerce",
-    //     icon: ShoppingCart,
-    //   },
-    // ],
+  },
+  {
+    path: "/task",
+    name: "Task",
+    icon: PieChart,
+    child: [
+      {
+        path: "task-request",
+        name: "Task Request",
+        icon: ListPlus,
+      },
+      {
+        path: "task-list",
+        name: "Task List",
+        icon: ListTodo,
+      },
+    ],
   },
   {
     path: "/users",
-    name: "Users",
-    icon: BookCheck,
+    name: "Users Management",
+    icon: User,
     child: [
       {
-        path: "list",
-        name: "User List",
-        icon: List,
+        path: "/user-create",
+        name: "Create User",
+        icon: UserPlus,
       },
       {
-        path: "category-2",
-        name: "Task Category 2",
-        icon: List,
+        path: "/list",
+        name: "User List",
+        icon: Users,
+      },
+      {
+        path: "/roles",
+        name: "Roles",
+        icon: UserCheck,
       },
     ],
+  },
+  {
+    name: "Analytics & Report",
+    path: "analytics-report",
+    icon: ChartLine,
   },
   {
     name: "Settings",
     path: "settings",
     icon: Settings,
-  },
-  {
-    path: "profile",
-    name: "Profile",
-    icon: UserPen,
+    child: [
+      {
+        name: "Case",
+        path: "case",
+        icon: Grid2X2,
+      },
+      {
+        name: "Workflow",
+        path: "workflow",
+        icon: Workflow,
+      },
+    ],
   },
 ];

@@ -83,7 +83,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 shadow-sm border-r-2 transition ease-in-out flex h-screen w-75 flex-col overflow-y-hidden  duration-300 lg:static lg:translate-x-0 bg-background text-white ${
+      className={`absolute left-0 top-0 z-40 shadow-sm border-r-2 transition ease-in-out flex h-screen w-75 flex-col overflow-y-hidden  duration-300 lg:static lg:translate-x-0 bg-background text-white ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -118,7 +118,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       </div>
       <div className="px-2">
         <Input
-          placeholder="filter menu ..."
+          placeholder="Search"
           className="mb-4 bg-inherit outline-none text-muted-foreground border-inherit"
           onChange={(e) => filterMenu(e.target.value)}
         />
